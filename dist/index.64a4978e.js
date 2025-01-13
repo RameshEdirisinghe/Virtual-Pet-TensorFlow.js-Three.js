@@ -599,7 +599,13 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _three = require("three");
 var _orbitControlsJs = require("three/examples/jsm/controls/OrbitControls.js");
 var _gltfloaderJs = require("three/examples/jsm/loaders/GLTFLoader.js");
+const textureLoader = new _three.TextureLoader();
 const monkeyUrl = new URL(require("73f5751a3af7ee84"));
+const floorUrl = new URL(require("531dc9b5cf1f3075"));
+const backWallUrl = new URL(require("b8812dcaa0382283"));
+const backWallTexture = textureLoader.load(backWallUrl.href);
+// const cubeTextureLoader = new THREE.CubeTextureLoader()
+// cubeTextureLoader.setPath(new URL('../assets/cubemap/', import.meta.url).href);
 const renderer = new _three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -609,8 +615,52 @@ renderer.setClearColor(0xA3A3A3);
 const orbit = new (0, _orbitControlsJs.OrbitControls)(camera, renderer.domElement);
 camera.position.set(10, 10, 10);
 orbit.update();
-const grid = new _three.GridHelper(30, 30);
-scene.add(grid);
+// const grid = new THREE.GridHelper(30, 30);
+// scene.add(grid);
+const floorTexture = textureLoader.load(floorUrl);
+floorTexture.colorSpace = _three.SRGBColorSpace;
+const geometry = new _three.PlaneGeometry(30, 30);
+const floormaterial = new _three.MeshBasicMaterial({
+    map: floorTexture,
+    side: _three.DoubleSide
+});
+const floorplane = new _three.Mesh(geometry, floormaterial);
+floorplane.rotation.x = -0.5 * Math.PI;
+scene.add(floorplane);
+const wallgeometry = new _three.PlaneGeometry(30, 15);
+const backWallmaterial = new _three.MeshBasicMaterial({
+    map: backWallTexture
+});
+const backwallPlane = new _three.Mesh(wallgeometry, backWallmaterial);
+backwallPlane.rotation.y = 0.5 * Math.PI;
+backwallPlane.position.x = -15;
+backwallPlane.position.y = 7.5;
+scene.add(backwallPlane);
+const leftWallmaterial = new _three.MeshBasicMaterial({
+    map: backWallTexture
+});
+const leftwallPlane = new _three.Mesh(wallgeometry, leftWallmaterial);
+leftwallPlane.rotation.y = 1 * Math.PI;
+leftwallPlane.position.z = 15;
+leftwallPlane.position.y = 7.5;
+scene.add(leftwallPlane);
+const rightWallmaterial = new _three.MeshBasicMaterial({
+    map: backWallTexture
+});
+const rightwallPlane = new _three.Mesh(wallgeometry, rightWallmaterial);
+rightwallPlane.position.z = -15;
+rightwallPlane.position.y = 7.5;
+scene.add(rightwallPlane);
+const cubeTextureLoader = new _three.CubeTextureLoader();
+const backgroundCubemap = cubeTextureLoader.load([
+    new URL(require("cda792f981d9c176")).href,
+    new URL(require("8eba2949edcfb733")).href,
+    new URL(require("4dcf623f0ca635fd")).href,
+    new URL(require("92acf652922e8229")).href,
+    new URL(require("1ce06426fefbd1b3")).href,
+    new URL(require("8909d9a10020d6a1")).href
+]);
+scene.background = backgroundCubemap;
 const assetLoader = new (0, _gltfloaderJs.GLTFLoader)();
 let mixer;
 assetLoader.load(monkeyUrl.href, function(gltf) {
@@ -642,7 +692,7 @@ window.addEventListener('resize', function() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-},{"three":"ktPTu","three/examples/jsm/controls/OrbitControls.js":"7mqRv","three/examples/jsm/loaders/GLTFLoader.js":"dVRsF","73f5751a3af7ee84":"8sSQK"}],"ktPTu":[function(require,module,exports,__globalThis) {
+},{"three":"ktPTu","three/examples/jsm/controls/OrbitControls.js":"7mqRv","three/examples/jsm/loaders/GLTFLoader.js":"dVRsF","73f5751a3af7ee84":"8sSQK","b8812dcaa0382283":"6e0qV","531dc9b5cf1f3075":"gSqI3","cda792f981d9c176":"h5xhO","8eba2949edcfb733":"lgRnW","4dcf623f0ca635fd":"9G07y","92acf652922e8229":"gklxo","1ce06426fefbd1b3":"6yJsJ","8909d9a10020d6a1":"lcvQp"}],"ktPTu":[function(require,module,exports,__globalThis) {
 /**
  * @license
  * Copyright 2010-2021 Three.js Authors
@@ -32972,6 +33022,30 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}]},["aff8j","goJYj"], "goJYj", "parcelRequire94c2")
+},{}],"6e0qV":[function(require,module,exports,__globalThis) {
+module.exports = require("907f0a1a7c7a4d9d").getBundleURL('e6MYJ') + "backfloor.5f240032.jpg" + "?" + Date.now();
+
+},{"907f0a1a7c7a4d9d":"i10aD"}],"gSqI3":[function(require,module,exports,__globalThis) {
+module.exports = require("5bdb7a8cbd72c75c").getBundleURL('e6MYJ') + "floor.920f3c73.jpg" + "?" + Date.now();
+
+},{"5bdb7a8cbd72c75c":"i10aD"}],"h5xhO":[function(require,module,exports,__globalThis) {
+module.exports = require("29907edec0aa25d8").getBundleURL('e6MYJ') + "px.47ad3d30.png" + "?" + Date.now();
+
+},{"29907edec0aa25d8":"i10aD"}],"lgRnW":[function(require,module,exports,__globalThis) {
+module.exports = require("5ffe2226506997c7").getBundleURL('e6MYJ') + "nx.af2c363d.png" + "?" + Date.now();
+
+},{"5ffe2226506997c7":"i10aD"}],"9G07y":[function(require,module,exports,__globalThis) {
+module.exports = require("205599398483f5ba").getBundleURL('e6MYJ') + "py.9ac06fed.png" + "?" + Date.now();
+
+},{"205599398483f5ba":"i10aD"}],"gklxo":[function(require,module,exports,__globalThis) {
+module.exports = require("c7ef86bda27ff834").getBundleURL('e6MYJ') + "ny.d3315663.png" + "?" + Date.now();
+
+},{"c7ef86bda27ff834":"i10aD"}],"6yJsJ":[function(require,module,exports,__globalThis) {
+module.exports = require("8aa0933b678ff679").getBundleURL('e6MYJ') + "pz.ef806c9b.png" + "?" + Date.now();
+
+},{"8aa0933b678ff679":"i10aD"}],"lcvQp":[function(require,module,exports,__globalThis) {
+module.exports = require("6d8590b890c51cf0").getBundleURL('e6MYJ') + "nz.c7c89a6f.png" + "?" + Date.now();
+
+},{"6d8590b890c51cf0":"i10aD"}]},["aff8j","goJYj"], "goJYj", "parcelRequire94c2")
 
 //# sourceMappingURL=index.64a4978e.js.map
